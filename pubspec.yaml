@@ -1,8 +1,8 @@
-name: lucide_icons_flutter
-description: A Lucide icon library package for Flutter applications. Fork of Feather Icons, open for anyone to contribute icons.
-version: 3.1.14+2
+name: lucide_icons_flutter_dense
+description: A denser-weight Lucide icon library package for Flutter applications with 0.25 stroke-width steps from 0.5 to 3.0.
+version: 3.1.14+2-dense.1
 homepage: https://lucide.dev
-repository: https://github.com/vqh2602/lucide-flutter-main
+repository: https://github.com/hashencode/lucide_icons_flutter_dense
 
 environment:
   sdk: ^3.0.0
@@ -27,22 +27,37 @@ flutter:
       fonts:
         - asset: assets/build_font/LucideVariable-w100.ttf
           weight: 100
+    - family: Lucide150
+      fonts:
+        - asset: assets/build_font/LucideVariable-w150.ttf
     - family: Lucide200
       fonts:
         - asset: assets/build_font/LucideVariable-w200.ttf
           weight: 200
+    - family: Lucide250
+      fonts:
+        - asset: assets/build_font/LucideVariable-w250.ttf
     - family: Lucide300
       fonts:
         - asset: assets/build_font/LucideVariable-w300.ttf
           weight: 300
+    - family: Lucide350
+      fonts:
+        - asset: assets/build_font/LucideVariable-w350.ttf
     - family: Lucide400
       fonts:
         - asset: assets/build_font/LucideVariable-w400.ttf
           weight: 400
+    - family: Lucide450
+      fonts:
+        - asset: assets/build_font/LucideVariable-w450.ttf
     - family: Lucide500
       fonts:
         - asset: assets/build_font/LucideVariable-w500.ttf
           weight: 500
+    - family: Lucide550
+      fonts:
+        - asset: assets/build_font/LucideVariable-w550.ttf
     - family: Lucide600
       fonts:
         - asset: assets/build_font/LucideVariable-w600.ttf

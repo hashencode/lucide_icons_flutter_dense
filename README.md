@@ -1,12 +1,12 @@
-# lucide_icons
+# lucide_icons_flutter_dense
 
-![Pub Version](https://img.shields.io/pub/v/lucide_icons_flutter)
-![Pub Monthly Downloads](https://img.shields.io/pub/dm/lucide_icons_flutter)
-![Pub Likes](https://img.shields.io/pub/likes/lucide_icons_flutter)
-![Pub Points](https://img.shields.io/pub/points/lucide_icons_flutter)
-![Pub Publisher](https://img.shields.io/pub/publisher/lucide_icons_flutter)
+![Pub Version](https://img.shields.io/pub/v/lucide_icons_flutter_dense)
+![Pub Monthly Downloads](https://img.shields.io/pub/dm/lucide_icons_flutter_dense)
+![Pub Likes](https://img.shields.io/pub/likes/lucide_icons_flutter_dense)
+![Pub Points](https://img.shields.io/pub/points/lucide_icons_flutter_dense)
+![Pub Publisher](https://img.shields.io/pub/publisher/lucide_icons_flutter_dense)
 
-version: 1.16.0
+version: 1.17.0
 
 Lucide Icons ([lucide.dev](https://lucide.dev)) for Flutter. Visit the website for the full list of icons.
 
@@ -15,20 +15,25 @@ Lucide Icons ([lucide.dev](https://lucide.dev)) for Flutter. Visit the website f
 Use regular version
 
 ```dart
-import  'package:lucide_icons_flutter/lucide_icons.dart';
+import  'package:lucide_icons_flutter_dense/lucide_icons.dart';
 
 Icon(LucideIcons.activity);
 ```
 
-If you need to change the thickness of each icon stroke, use the way under the wire
+If you need denser stroke control, use the generated weight families:
 
 ```dart
-import  'package:lucide_icons_flutter/lucide_icons.dart';
+import  'package:lucide_icons_flutter_dense/lucide_icons.dart';
 Icon(LucideIcons.activity100);
+Icon(LucideIcons.activity150);
 Icon(LucideIcons.activity200);
+Icon(LucideIcons.activity250);
 Icon(LucideIcons.activity300);
+Icon(LucideIcons.activity350);
 Icon(LucideIcons.activity400);
+Icon(LucideIcons.activity450);
 Icon(LucideIcons.activity500);
+Icon(LucideIcons.activity550);
 Icon(LucideIcons.activity600);
 
 Icon(LucideIcons.activityDir);
@@ -46,7 +51,7 @@ For RTL (right-to-left) support, use the `Dir` icon:
 ```
 
 ```dart
-import  'package:lucide_icons_flutter/lucide_icons.dart';
+import  'package:lucide_icons_flutter_dense/lucide_icons.dart';
 
                     const Directionality(
                         textDirection: TextDirection.rtl,

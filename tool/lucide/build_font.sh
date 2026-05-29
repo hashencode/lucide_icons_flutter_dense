@@ -17,7 +17,7 @@ BASE_FONT="../../assets/lucide.ttf"
 if [[ -n "${BUILD_WEIGHTS:-}" ]]; then
   read -r -a WEIGHTS <<< "$BUILD_WEIGHTS"
 else
-  WEIGHTS=(100 200 300 400 500 600)
+WEIGHTS=(100 150 200 250 300 350 400 450 500 550 600)
 fi
 
 if [[ -f "$ICON_SOURCE_DIR/codepoints.json" ]]; then

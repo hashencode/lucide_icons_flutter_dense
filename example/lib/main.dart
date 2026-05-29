@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:lucide_icons_flutter/test_icons.dart';
+import 'package:lucide_icons_flutter_dense/lucide_icons.dart';
+import 'package:lucide_icons_flutter_dense/test_icons.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,3 +1,10 @@
+## 3.1.14+2-dense.1
+
+- Forked package as `lucide_icons_flutter_dense`.
+- Added denser stroke families at 0.25 increments:
+  `100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600`.
+- Regenerated bundled fonts and icon constants for the new families.
+
 ## 3.1.14+2
 Thêm tính năng tìm kiếm icon vào ứng dụng ví dụ và tooling
 [Issue #20 trên GitHub](https://github.com/vqh2602/lucide-flutter-main/issues/20)

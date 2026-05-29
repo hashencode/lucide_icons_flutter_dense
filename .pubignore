@@ -1,0 +1,4 @@
+.fvm/
+example/.fvm/
+tool/lucide/__pycache__/
+tool/lucide/build_font/

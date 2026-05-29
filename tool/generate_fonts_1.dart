@@ -3,6 +3,21 @@ import "dart:io";
 
 import 'package:recase/recase.dart';
 
+const String kPackageName = 'lucide_icons_flutter_dense';
+const List<int> kWeightTokens = <int>[
+  100,
+  150,
+  200,
+  250,
+  300,
+  350,
+  400,
+  450,
+  500,
+  550,
+  600,
+];
+
 void main(List<String> args) {
   File fontsPreviewFile = File(args[0]);
 
@@ -43,7 +58,7 @@ void main(List<String> args) {
   ];
   List<String> listIconTest = [
     "\nimport 'package:flutter/material.dart';",
-    "\nimport 'package:lucide_icons_flutter/lucide_icons.dart';",
+    "\nimport 'package:$kPackageName/lucide_icons.dart';",
     "\n/// Lucide Icons",
     "\nconst List<IconData> icons = ["
   ];
@@ -104,13 +119,13 @@ void main(List<String> args) {
     // Sử dụng URL data với định dạng đầy đủ
     generatedOutput.add("/// ${data['name']}\n"
         "/// ![${data['name']}](data:image/svg+xml;base64,${svgContent})\n"
-        "static const IconData $baseName = const IconData($codePoint, fontFamily: 'Lucide', fontPackage: 'lucide_icons_flutter');\n"
-        "static const IconData ${baseName}Dir = const IconData($codePoint, fontFamily: 'Lucide', fontPackage: 'lucide_icons_flutter', matchTextDirection: true);\n");
+        "static const IconData $baseName = const IconData($codePoint, fontFamily: 'Lucide', fontPackage: '$kPackageName');\n"
+        "static const IconData ${baseName}Dir = const IconData($codePoint, fontFamily: 'Lucide', fontPackage: '$kPackageName', matchTextDirection: true);\n");
     listIconTest.add("\nLucideIcons.$baseName,");
     listIconNamesTest.add("\n'$baseName',");
 
-    // Sinh thêm các biến với fontFamily Lucide100...Lucide600
-    for (int i = 100; i <= 600; i += 100) {
+    // Sinh thêm các biến với fontFamily Lucide100...Lucide600 và các mốc trung gian
+    for (final int i in kWeightTokens) {
       String svgContent = '';
 
       try {
@@ -157,7 +172,7 @@ void main(List<String> args) {
       String varName = '$baseName$i';
       generatedOutput.add("/// ${data['name']} với fontFamily $fontFamily\n"
           "/// ![${data['name']}](data:image/svg+xml;base64,${svgContent})\n"
-          "static const IconData $varName = const IconData($codePoint, fontFamily: '$fontFamily', fontPackage: 'lucide_icons_flutter');\n");
+          "static const IconData $varName = const IconData($codePoint, fontFamily: '$fontFamily', fontPackage: '$kPackageName');\n");
       listIconTest.add("\nLucideIcons.$varName,");
       listIconNamesTest.add("\n'$varName',");
     }
