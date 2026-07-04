@@ -5,6 +5,8 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+bash tool/lucide/preflight.sh
+
 dart pub get
 
 bash tool/lucide/clone.sh

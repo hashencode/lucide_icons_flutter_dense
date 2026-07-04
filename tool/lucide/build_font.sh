@@ -28,7 +28,7 @@ fi
 
 # Đặt 1 để bỏ qua SVGO nếu muốn
 SKIP_SVGO="${SKIP_SVGO:-0}"
-# Đặt 1 nếu muốn dùng Inkscape flatten stroke/path trước khi import vào FontForge.
+# Set to 1 to flatten strokes through Inkscape before FontForge import.
 NORMALIZE_SVG="${NORMALIZE_SVG:-0}"
 
 # =========================

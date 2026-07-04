@@ -1,3 +1,10 @@
+## 3.1.15+2-dense.1
+
+- Updated bundled Lucide assets to `1.23.0`.
+- Regenerated base and dense-weight font assets.
+- Regenerated Dart icon constants from the updated Lucide metadata.
+- Fixed generated SVG previews for aliased icons by resolving Lucide aliases.
+
 ## 3.1.14+2-dense.1
 
 - Forked package as `lucide_icons_flutter_dense`.

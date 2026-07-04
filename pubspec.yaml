@@ -1,6 +1,6 @@
 name: lucide_icons_flutter_dense
 description: A denser-weight Lucide icon library package for Flutter applications with 0.25 stroke-width steps from 0.5 to 3.0.
-version: 3.1.14+2-dense.1
+version: 3.1.15+2-dense.1
 homepage: https://lucide.dev
 repository: https://github.com/hashencode/lucide_icons_flutter_dense
 

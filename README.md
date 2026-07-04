@@ -6,7 +6,7 @@
 ![Pub Points](https://img.shields.io/pub/points/lucide_icons_flutter_dense)
 ![Pub Publisher](https://img.shields.io/pub/publisher/lucide_icons_flutter_dense)
 
-version: 1.17.0
+version: 1.23.0
 
 Lucide Icons ([lucide.dev](https://lucide.dev)) for Flutter. Visit the website for the full list of icons.
 

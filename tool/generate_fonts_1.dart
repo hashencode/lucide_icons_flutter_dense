@@ -17,6 +17,7 @@ const List<int> kWeightTokens = <int>[
   550,
   600,
 ];
+const String kLucideSourcePath = 'lucide/lucide-source';
 
 void main(List<String> args) {
   File fontsPreviewFile = File(args[0]);
@@ -60,10 +61,12 @@ void main(List<String> args) {
     "\nimport 'package:flutter/material.dart';",
     "\nimport 'package:$kPackageName/lucide_icons.dart';",
     "\n/// Lucide Icons",
-    "\nconst List<IconData> icons = ["
+    "\nconst List<IconData> icons = [",
   ];
   List<String> listIconNamesTest = ["\n\nconst List<String> iconNames = ["];
   final generatedIconNames = <String>{};
+  final svgAliases = buildSvgAliases(Directory(kLucideSourcePath));
+
   for (Map data in resultList) {
     String iconName = data['name'];
     final baseName = ReCase(iconName).camelCase;
@@ -74,105 +77,36 @@ void main(List<String> args) {
       continue;
     }
 
-    String svgContent = '';
+    final svgContent = readSvgPreviewBase64(
+      iconName: iconName,
+      sourceDir: Directory(kLucideSourcePath),
+      aliases: svgAliases,
+    );
 
-    try {
-      File svgFile =
-          File('lucide/lucide-source/${iconName.replaceAll('icon-', '')}.svg');
-      print('$svgFile');
-      if (svgFile.existsSync()) {
-        svgContent = svgFile.readAsStringSync();
-
-        // Đảm bảo SVG có kích thước nhỏ và đơn giản
-        svgContent = svgContent
-            .replaceAll(
-                'stroke="currentColor"', 'stroke="#0066cc"') // Màu đỏ nổi bật
-            // .replaceAll(
-            //     'stroke-width="2"', 'stroke-width="3"') // Đường viền dày hơn
-            .replaceAll('width="24"', 'width="48"') // Kích thước lớn hơn
-            .replaceAll('height="24"', 'height="48"');
-
-        // Thêm thuộc tính XML cần thiết
-        if (!svgContent.contains('xmlns="http://www.w3.org/2000/svg"')) {
-          svgContent = svgContent.replaceFirst(
-              '<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
-        }
-
-        // Đảm bảo SVG có đủ các thuộc tính cần thiết
-        svgContent = svgContent.replaceFirst('<svg', '<svg version="1.1"');
-
-        // Mã hóa SVG thành base64 với định dạng chuẩn
-        svgContent = base64Encode(utf8.encode(svgContent));
-      }
-    } catch (e) {
-      print('Không thể đọc SVG cho $iconName: $e');
-    }
-
-    if (svgContent.isEmpty) {
-      // Tạo một SVG đơn giản nếu không tìm thấy file
-      print('Không tìm thấy SVG cho $iconName');
-      String fallbackSvg =
-          '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>';
-      svgContent = base64Encode(utf8.encode(fallbackSvg));
-    }
-
-    // Sử dụng URL data với định dạng đầy đủ
-    generatedOutput.add("/// ${data['name']}\n"
-        "/// ![${data['name']}](data:image/svg+xml;base64,${svgContent})\n"
-        "static const IconData $baseName = const IconData($codePoint, fontFamily: 'Lucide', fontPackage: '$kPackageName');\n"
-        "static const IconData ${baseName}Dir = const IconData($codePoint, fontFamily: 'Lucide', fontPackage: '$kPackageName', matchTextDirection: true);\n");
+    generatedOutput.add(
+      "/// ${data['name']}\n"
+      "${buildPreviewMarkdown(data['name'], svgContent)}"
+      "static const IconData $baseName = const IconData($codePoint, fontFamily: 'Lucide', fontPackage: '$kPackageName');\n"
+      "static const IconData ${baseName}Dir = const IconData($codePoint, fontFamily: 'Lucide', fontPackage: '$kPackageName', matchTextDirection: true);\n",
+    );
     listIconTest.add("\nLucideIcons.$baseName,");
     listIconNamesTest.add("\n'$baseName',");
 
     // Sinh thêm các biến với fontFamily Lucide100...Lucide600 và các mốc trung gian
     for (final int i in kWeightTokens) {
-      String svgContent = '';
-
-      try {
-        File svgFile = File(
-            'lucide/svg_input/weight${i}/${iconName.replaceAll('icon-', '')}.svg');
-        print('$svgFile');
-        if (svgFile.existsSync()) {
-          svgContent = svgFile.readAsStringSync();
-
-          // Đảm bảo SVG có kích thước nhỏ và đơn giản
-          svgContent = svgContent
-              .replaceAll(
-                  'stroke="currentColor"', 'stroke="#0066cc"') // Màu đỏ nổi bật
-              // .replaceAll(
-              //     'stroke-width="2"', 'stroke-width="3"') // Đường viền dày hơn
-              .replaceAll('width="24"', 'width="48"') // Kích thước lớn hơn
-              .replaceAll('height="24"', 'height="48"');
-
-          // Thêm thuộc tính XML cần thiết
-          if (!svgContent.contains('xmlns="http://www.w3.org/2000/svg"')) {
-            svgContent = svgContent.replaceFirst(
-                '<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
-          }
-
-          // Đảm bảo SVG có đủ các thuộc tính cần thiết
-          svgContent = svgContent.replaceFirst('<svg', '<svg version="1.1"');
-
-          // Mã hóa SVG thành base64 với định dạng chuẩn
-          svgContent = base64Encode(utf8.encode(svgContent));
-        }
-      } catch (e) {
-        print('Không thể đọc SVG cho $iconName: $e');
-      }
-
-      if (svgContent.isEmpty) {
-        // Tạo một SVG đơn giản nếu không tìm thấy file
-        print('Không tìm thấy SVG cho $iconName');
-        String fallbackSvg =
-            '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>';
-        svgContent = base64Encode(utf8.encode(fallbackSvg));
-      }
+      final svgContent = readSvgPreviewBase64(
+        iconName: iconName,
+        sourceDir: Directory('lucide/svg_input/weight$i'),
+        aliases: svgAliases,
+      );
 
       String fontFamily = 'Lucide$i';
       String varName = '$baseName$i';
-      generatedOutput.add("/// ${data['name']} với fontFamily $fontFamily\n"
-          "/// ![${data['name']}](data:image/svg+xml;base64,${svgContent})\n"
-          "static const IconData $varName = const IconData($codePoint, fontFamily: '$fontFamily', fontPackage: '$kPackageName');\n");
+      generatedOutput.add(
+        "/// ${data['name']} với fontFamily $fontFamily\n"
+        "${buildPreviewMarkdown(data['name'], svgContent)}"
+        "static const IconData $varName = const IconData($codePoint, fontFamily: '$fontFamily', fontPackage: '$kPackageName');\n",
+      );
       listIconTest.add("\nLucideIcons.$varName,");
       listIconNamesTest.add("\n'$varName',");
     }
@@ -189,6 +123,142 @@ void main(List<String> args) {
   output.writeAsStringSync(generatedOutput.join());
   File outputTest = File('../lib/test_icons.dart');
   outputTest.writeAsStringSync(listIconTest.join() + listIconNamesTest.join());
+}
+
+Map<String, String> buildSvgAliases(Directory sourceDir) {
+  final aliases = <String, String>{};
+
+  if (!sourceDir.existsSync()) {
+    return aliases;
+  }
+
+  for (final entity in sourceDir.listSync()) {
+    if (entity is! File || !entity.path.endsWith('.json')) {
+      continue;
+    }
+
+    try {
+      final metadata = json.decode(entity.readAsStringSync());
+      if (metadata is! Map<String, dynamic>) {
+        continue;
+      }
+
+      final canonicalName = fileStem(entity);
+      final metadataAliases = metadata['aliases'];
+      if (metadataAliases is! List) {
+        continue;
+      }
+
+      for (final alias in metadataAliases) {
+        final aliasName = switch (alias) {
+          String value => value,
+          Map<String, dynamic> value when value['name'] is String =>
+            value['name'] as String,
+          _ => null,
+        };
+
+        if (aliasName == null || aliasName.isEmpty) {
+          continue;
+        }
+
+        aliases.putIfAbsent(aliasName, () => canonicalName);
+      }
+    } catch (e) {
+      stderr.writeln('Could not read Lucide metadata ${entity.path}: $e');
+    }
+  }
+
+  return aliases;
+}
+
+String readSvgPreviewBase64({
+  required String iconName,
+  required Directory sourceDir,
+  required Map<String, String> aliases,
+}) {
+  final svgFile = resolveSvgFile(
+    iconName: iconName,
+    sourceDir: sourceDir,
+    aliases: aliases,
+  );
+
+  if (svgFile == null) {
+    stderr.writeln('SVG preview not found for $iconName');
+    return '';
+  }
+
+  try {
+    return base64Encode(utf8.encode(normalizeSvgPreview(svgFile)));
+  } catch (e) {
+    stderr.writeln('Could not read SVG preview for $iconName: $e');
+    return '';
+  }
+}
+
+File? resolveSvgFile({
+  required String iconName,
+  required Directory sourceDir,
+  required Map<String, String> aliases,
+}) {
+  final normalizedName = iconName.replaceFirst('icon-', '');
+  final exactFile = File('${sourceDir.path}/$normalizedName.svg');
+  if (exactFile.existsSync()) {
+    return exactFile;
+  }
+
+  final canonicalName = aliases[normalizedName];
+  if (canonicalName == null) {
+    return null;
+  }
+
+  final aliasFile = File('${sourceDir.path}/$canonicalName.svg');
+  if (aliasFile.existsSync()) {
+    return aliasFile;
+  }
+
+  return null;
+}
+
+String normalizeSvgPreview(File svgFile) {
+  var svgContent = svgFile.readAsStringSync();
+
+  svgContent = svgContent
+      .replaceAll('stroke="currentColor"', 'stroke="#0066cc"')
+      .replaceAll('width="24"', 'width="48"')
+      .replaceAll('height="24"', 'height="48"');
+
+  if (!svgContent.contains('xmlns="http://www.w3.org/2000/svg"')) {
+    svgContent = svgContent.replaceFirst(
+      '<svg',
+      '<svg xmlns="http://www.w3.org/2000/svg"',
+    );
+  }
+
+  if (!RegExp(r'<svg[^>]*\sversion=').hasMatch(svgContent)) {
+    svgContent = svgContent.replaceFirst('<svg', '<svg version="1.1"');
+  }
+
+  return svgContent;
+}
+
+String buildPreviewMarkdown(String iconName, String base64Svg) {
+  if (base64Svg.isEmpty) {
+    return '';
+  }
+
+  return '/// ![$iconName](data:image/svg+xml;base64,$base64Svg)\n';
+}
+
+String fileStem(File file) {
+  final path = file.path;
+  final fileName = path.split(Platform.pathSeparator).last;
+  final dotIndex = fileName.lastIndexOf('.');
+
+  if (dotIndex == -1) {
+    return fileName;
+  }
+
+  return fileName.substring(0, dotIndex);
 }
 
 int parseUnicodeString(String unicodeString) {
